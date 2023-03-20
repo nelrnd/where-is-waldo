@@ -10,8 +10,8 @@
 }
 
 .NavBar_content {
-  width: 960px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 960px;
 }
 
 .NavBar_brand {

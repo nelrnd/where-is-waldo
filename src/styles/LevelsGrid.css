@@ -1,0 +1,7 @@
+.LevelsGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  column-gap: 8vw;
+  row-gap: 48px;
+}
