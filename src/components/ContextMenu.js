@@ -1,8 +1,11 @@
 import '../styles/ContextMenu.css';
 
-const ContextMenu = ({ isOpen, characters }) => {
+const ContextMenu = ({ isOpen, position, characters }) => {
   return (
-    <div className={'ContextMenu' + (!isOpen ? ' hidden' : '')}>
+    <div
+      className={'ContextMenu' + (!isOpen ? ' hidden' : '')}
+      style={{ left: position.x + 'px', top: position.y + 'px' }}
+    >
       <ul>
         {characters.map((character, index) => (
           <ContextOption

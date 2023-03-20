@@ -1,9 +1,9 @@
 import '../styles/PuzzleImage.css';
 
-const PuzzleImage = ({ imageUrl }) => {
+const PuzzleImage = ({ imageUrl, handleClick }) => {
   return (
     <div className="PuzzleImage">
-      <img src={imageUrl} alt="Landscape" />
+      <img src={imageUrl} alt="Landscape" onClick={handleClick} />
     </div>
   );
 };

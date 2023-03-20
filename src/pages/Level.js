@@ -20,13 +20,27 @@ const characters = [
 ];
 
 const Level = () => {
-  const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+  const [ctxMenuPos, setCtxMenuPos] = useState({ x: 0, y: 0 });
+  const [isCtxMenuOpen, setIsCtxMenuOpen] = useState(false);
+
+  const toggleCtxMenu = () => setIsCtxMenuOpen(!isCtxMenuOpen);
+
+  const handlePuzzleImageClick = (event) => {
+    if (!isCtxMenuOpen) {
+      setCtxMenuPos({ x: event.pageX + 5, y: event.pageY + 5 });
+    }
+    toggleCtxMenu();
+  };
 
   return (
     <div>
       <CharactersList characters={characters} />
-      <ContextMenu isOpen={isContextMenuOpen} characters={characters} />
-      <PuzzleImage imageUrl={SpaceImg} />
+      <ContextMenu
+        isOpen={isCtxMenuOpen}
+        position={ctxMenuPos}
+        characters={characters}
+      />
+      <PuzzleImage imageUrl={SpaceImg} handleClick={handlePuzzleImageClick} />
     </div>
   );
 };
