@@ -1,0 +1,49 @@
+.ContextMenu {
+  width: 130px;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+
+  position: absolute;
+}
+
+.ContextOption {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.ContextOption:hover {
+  background-color: rgba(235, 235, 235, 0.8);
+}
+
+.ContextOption_avatar {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--grey);
+}
+
+.ContextOption.found {
+  cursor: not-allowed;
+}
+
+.ContextOption.found:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.ContextOption.found .ContextOption_avatar {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.ContextOption.found .ContextOption_name {
+  color: #b3b3b3;
+  text-decoration: line-through;
+}

@@ -8,7 +8,7 @@ const CharactersList = ({ characters }) => {
   const toggleExpanded = () => setIsExpanded((isExpanded) => !isExpanded);
 
   return (
-    <div className={'CharactersList' + (isExpanded ? ' expanded' : '')}>
+    <aside className={'CharactersList' + (isExpanded ? ' expanded' : '')}>
       <ul>
         {characters.map((character, index) => (
           <CharacterItem
@@ -27,7 +27,7 @@ const CharactersList = ({ characters }) => {
           className="CharactersList_expand-icon"
         />
       </button>
-    </div>
+    </aside>
   );
 };
 
