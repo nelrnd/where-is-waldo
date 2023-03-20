@@ -1,7 +1,10 @@
+import NavBar from './components/NavBar';
+import './styles/App.css';
+
 function App() {
   return (
     <div>
-      <h1>Where's Waldo?</h1>
+      <NavBar />
     </div>
   );
 }
