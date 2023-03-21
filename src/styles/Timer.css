@@ -1,0 +1,11 @@
+.Timer {
+  font-size: 1.25rem;
+  font-family: 'Roboto Mono';
+  line-height: 100%;
+  color: white;
+  background-color: var(--blue);
+  width: fit-content;
+  padding: 12px;
+  border-radius: 22px;
+  border: 2px solid #c8eefc;
+}

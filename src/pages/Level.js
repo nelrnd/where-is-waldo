@@ -2,6 +2,7 @@ import { useState } from 'react';
 import CharactersList from '../components/CharactersList';
 import ContextMenu from '../components/ContextMenu';
 import PuzzleImage from '../components/PuzzleImage';
+import Timer from '../components/Timer';
 
 import WaldoAvatar from '../assets/images/characters/waldo.png';
 import WendaAvatar from '../assets/images/characters/wenda.png';
@@ -34,6 +35,7 @@ const Level = () => {
 
   return (
     <div>
+      <Timer />
       <CharactersList characters={characters} />
       <ContextMenu
         isOpen={isCtxMenuOpen}
