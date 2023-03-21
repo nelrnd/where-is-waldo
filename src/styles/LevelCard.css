@@ -1,0 +1,25 @@
+.LevelCard {
+  background-color: white;
+  box-shadow: var(--shadow);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.LevelCard_img-wrapper {
+  width: 100%;
+  aspect-ratio: 300 / 200;
+  background-size: 110%;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease-in-out;
+}
+
+.LevelCard:hover .LevelCard_img-wrapper {
+  background-size: 120%;
+}
+
+.LevelCard_title {
+  font-size: 24px;
+  text-align: center;
+  padding: 1rem 0;
+}
