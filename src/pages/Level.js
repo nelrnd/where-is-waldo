@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import PuzzleImage from '../components/PuzzleImage';
@@ -28,11 +29,14 @@ const Level = () => {
   const levelid = useParams().levelid;
   const [levelInfo, setLevelInfo] = useState({});
 
+  const [seconds, setSeconds] = useState(0);
+  const [isTimerRunning, setIsTimerRunning] = useState(true);
+
   // Position and state of context menu
   const [ctxMenuPos, setCtxMenuPos] = useState({ x: 0, y: 0 });
   const [isCtxMenuOpen, setIsCtxMenuOpen] = useState(false);
 
-  // Get level info when page first mounts
+  // Get level info when page mounts
   useEffect(() => {
     const getLevelInfo = async (levelid) => {
       const docRef = doc(db, 'levels', levelid);
@@ -49,6 +53,19 @@ const Level = () => {
     getLevelInfo(levelid);
   }, [levelid]);
 
+  // Handle starting and stopping timer
+  useEffect(() => {
+    let interval;
+    if (isTimerRunning) {
+      interval = setInterval(() => {
+        setSeconds((s) => s + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerRunning]);
+
+  const stopTimer = () => setIsTimerRunning(false);
+
   // Toggle context menu state (open and close)
   const toggleCtxMenu = () => setIsCtxMenuOpen(!isCtxMenuOpen);
 
@@ -60,30 +77,10 @@ const Level = () => {
     toggleCtxMenu();
   };
 
-  // Get hours, minutes, and seconds from seconds
-  const getTime = (seconds) => {
-    const units = [
-      { name: 'hours', nbOfSeconds: 3600, value: 0 },
-      { name: 'minutes', nbOfSeconds: 60, value: 0 },
-    ];
-
-    units.forEach((unit) => {
-      while (seconds >= unit.nbOfSeconds) {
-        unit.value++;
-        seconds -= unit.nbOfSeconds;
-      }
-    });
-
-    return [
-      ...units.map((u) => ({ name: u.name, value: u.value })),
-      { name: 'seconds', value: seconds },
-    ];
-  };
-
   return (
     <>
       <NavBar>
-        <Timer />
+        <Timer seconds={seconds} />
       </NavBar>
 
       <div>
