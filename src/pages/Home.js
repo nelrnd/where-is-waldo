@@ -1,3 +1,6 @@
+import { useState, useEffect } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LevelsGrid from '../components/LevelsGrid';
@@ -5,6 +8,28 @@ import LevelCard from '../components/LevelCard';
 import '../styles/Home.css';
 
 const Home = () => {
+  const [levels, setLevels] = useState([]);
+
+  // Fetch levels from database when page first mounts
+  useEffect(() => {
+    const getLevels = async () => {
+      const levels = [];
+      const docs = await getDocs(collection(db, 'levels'));
+      docs.forEach((doc) => {
+        const data = doc.data();
+        const level = {
+          title: data.title,
+          imageUrl: data.imageUrl,
+          id: doc.id,
+        };
+        levels.push(level);
+      });
+      setLevels(levels);
+    };
+
+    getLevels();
+  }, []);
+
   return (
     <>
       <NavBar />
@@ -12,22 +37,14 @@ const Home = () => {
       <div className="Home">
         <h1>Select your level:</h1>
         <LevelsGrid>
-          <LevelCard
-            title="Mountain"
-            imageUrl="https://wallpapers.com/images/hd/where-s-waldo-snow-mountain-jfcrg87pmobfoauq.jpg"
-          />
-          <LevelCard
-            title="Stadius"
-            imageUrl="https://www.podiumrunner.com/wp-content/uploads/2018/04/Waldo.png"
-          />
-          <LevelCard
-            title="Space"
-            imageUrl="https://astrobites.org/wp-content/uploads/2020/05/waldo-1024x719.jpg"
-          />
-          <LevelCard
-            title="Beach"
-            imageUrl="https://i.pinimg.com/originals/24/c1/b0/24c1b065c17d4c4bf8d5bc725234988f.jpg"
-          />
+          {levels.map((level, index) => (
+            <LevelCard
+              key={index}
+              title={level.title}
+              imageUrl={level.imageUrl}
+              id={level.id}
+            />
+          ))}
         </LevelsGrid>
       </div>
 

@@ -3,8 +3,8 @@
 }
 
 .LeaderboardTable {
-  width: 960px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 960px;
   margin: auto;
   margin-bottom: 2rem;
   box-shadow: var(--shadow);
@@ -38,4 +38,12 @@
 .LeaderboardTable tr td:first-of-type {
   color: #818181;
   text-align: center;
+}
+
+.primary-btn {
+  color: white;
+  background-color: var(--red);
+  display: block;
+  padding: 12px 24px;
+  border-radius: 4px;
 }
