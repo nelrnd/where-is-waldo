@@ -18,6 +18,10 @@
   align-items: center;
 }
 
+.NavBar_content a {
+  text-decoration: none;
+}
+
 .NavBar_brand {
   display: flex;
   align-items: center;
