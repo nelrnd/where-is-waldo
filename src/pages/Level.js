@@ -3,6 +3,7 @@ import CharactersList from '../components/CharactersList';
 import ContextMenu from '../components/ContextMenu';
 import PuzzleImage from '../components/PuzzleImage';
 import Timer from '../components/Timer';
+import GameOverMessage from '../components/GameOverMessage';
 
 import WaldoAvatar from '../assets/images/characters/waldo.png';
 import WendaAvatar from '../assets/images/characters/wenda.png';
@@ -21,11 +22,14 @@ const characters = [
 ];
 
 const Level = () => {
+  // Position and state of context menu
   const [ctxMenuPos, setCtxMenuPos] = useState({ x: 0, y: 0 });
   const [isCtxMenuOpen, setIsCtxMenuOpen] = useState(false);
 
+  // Toggle context menu state (open and close)
   const toggleCtxMenu = () => setIsCtxMenuOpen(!isCtxMenuOpen);
 
+  // Handle clicking on puzzle image
   const handlePuzzleImageClick = (event) => {
     if (!isCtxMenuOpen) {
       setCtxMenuPos({ x: event.pageX + 5, y: event.pageY + 5 });
@@ -33,9 +37,30 @@ const Level = () => {
     toggleCtxMenu();
   };
 
+  // Get hours, minutes, and seconds from seconds
+  const getTime = (seconds) => {
+    const units = [
+      { name: 'hours', nbOfSeconds: 3600, value: 0 },
+      { name: 'minutes', nbOfSeconds: 60, value: 0 },
+    ];
+
+    units.forEach((unit) => {
+      while (seconds >= unit.nbOfSeconds) {
+        unit.value++;
+        seconds -= unit.nbOfSeconds;
+      }
+    });
+
+    return [
+      ...units.map((u) => ({ name: u.name, value: u.value })),
+      { name: 'seconds', value: seconds },
+    ];
+  };
+
   return (
     <div>
       <Timer />
+      <GameOverMessage seconds={3670} getTime={getTime} />
       <CharactersList characters={characters} />
       <ContextMenu
         isOpen={isCtxMenuOpen}
