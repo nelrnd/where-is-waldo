@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import CharactersList from '../components/CharactersList';
-import ContextMenu from '../components/ContextMenu';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 import PuzzleImage from '../components/PuzzleImage';
+import ContextMenu from '../components/ContextMenu';
+import CharactersList from '../components/CharactersList';
 import Timer from '../components/Timer';
 import GameOverMessage from '../components/GameOverMessage';
 
@@ -58,17 +60,25 @@ const Level = () => {
   };
 
   return (
-    <div>
-      <Timer />
-      <GameOverMessage seconds={3670} getTime={getTime} />
-      <CharactersList characters={characters} />
-      <ContextMenu
-        isOpen={isCtxMenuOpen}
-        position={ctxMenuPos}
-        characters={characters}
-      />
-      <PuzzleImage imageUrl={SpaceImg} handleClick={handlePuzzleImageClick} />
-    </div>
+    <>
+      <NavBar>
+        <Timer />
+      </NavBar>
+
+      <div>
+        <Timer />
+        <GameOverMessage seconds={3670} getTime={getTime} />
+        <CharactersList characters={characters} />
+        <ContextMenu
+          isOpen={isCtxMenuOpen}
+          position={ctxMenuPos}
+          characters={characters}
+        />
+        <PuzzleImage imageUrl={SpaceImg} handleClick={handlePuzzleImageClick} />
+      </div>
+
+      <Footer />
+    </>
   );
 };
 

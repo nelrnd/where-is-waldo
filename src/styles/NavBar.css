@@ -12,6 +12,10 @@
 .NavBar_content {
   width: 100%;
   max-width: 960px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .NavBar_brand {

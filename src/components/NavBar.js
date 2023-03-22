@@ -1,6 +1,6 @@
 import '../styles/NavBar.css';
 
-const NavBar = () => {
+const NavBar = ({ children }) => {
   return (
     <header className="NavBar">
       <div className="NavBar_content">
@@ -11,6 +11,8 @@ const NavBar = () => {
             <span className="second-line">WALDO?</span>
           </div>
         </div>
+
+        {children}
       </div>
     </header>
   );
