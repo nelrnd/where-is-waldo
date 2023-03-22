@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import PuzzleImage from '../components/PuzzleImage';
@@ -13,8 +16,6 @@ import WizardAvatar from '../assets/images/characters/wizard.png';
 import WoofAvatar from '../assets/images/characters/woof.png';
 import OdlawAvatar from '../assets/images/characters/odlaw.png';
 
-import SpaceImg from '../assets/images/space.jpg';
-
 const characters = [
   { name: 'Waldo', avatarUrl: WaldoAvatar, found: true },
   { name: 'Wenda', avatarUrl: WendaAvatar, found: false },
@@ -24,9 +25,29 @@ const characters = [
 ];
 
 const Level = () => {
+  const levelid = useParams().levelid;
+  const [levelInfo, setLevelInfo] = useState({});
+
   // Position and state of context menu
   const [ctxMenuPos, setCtxMenuPos] = useState({ x: 0, y: 0 });
   const [isCtxMenuOpen, setIsCtxMenuOpen] = useState(false);
+
+  // Get level info when page first mounts
+  useEffect(() => {
+    const getLevelInfo = async (levelid) => {
+      const docRef = doc(db, 'levels', levelid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const levelInfo = { title: data.title, imageUrl: data.imageUrl };
+        setLevelInfo(levelInfo);
+      } else {
+        console.error('Cannot find level');
+      }
+    };
+
+    getLevelInfo(levelid);
+  }, [levelid]);
 
   // Toggle context menu state (open and close)
   const toggleCtxMenu = () => setIsCtxMenuOpen(!isCtxMenuOpen);
@@ -66,15 +87,18 @@ const Level = () => {
       </NavBar>
 
       <div>
-        <Timer />
-        <GameOverMessage seconds={3670} getTime={getTime} />
         <CharactersList characters={characters} />
         <ContextMenu
           isOpen={isCtxMenuOpen}
           position={ctxMenuPos}
           characters={characters}
         />
-        <PuzzleImage imageUrl={SpaceImg} handleClick={handlePuzzleImageClick} />
+        {levelInfo && levelInfo.imageUrl && (
+          <PuzzleImage
+            imageUrl={levelInfo.imageUrl}
+            handleClick={handlePuzzleImageClick}
+          />
+        )}
       </div>
 
       <Footer />
