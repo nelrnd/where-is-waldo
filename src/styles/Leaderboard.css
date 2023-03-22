@@ -1,0 +1,41 @@
+.Leaderboard h1 {
+  margin: 4rem 0;
+}
+
+.LeaderboardTable {
+  width: 960px;
+  max-width: 100%;
+  margin: auto;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.LeaderboardTable tr {
+  display: grid;
+  grid-template-columns: 50px 1fr 1fr 1fr;
+}
+
+.LeaderboardTable tr:nth-child(even) {
+  background-color: white;
+}
+
+.LeaderboardTable tr:nth-child(odd) {
+  background-color: #f8f8f8;
+}
+
+.LeaderboardTable tr:first-of-type {
+  color: white;
+  background-color: var(--dark);
+}
+
+.LeaderboardTable th,
+.LeaderboardTable td {
+  font-weight: 400;
+  text-align: left;
+  padding: 14px;
+}
+
+.LeaderboardTable tr td:first-of-type {
+  color: #818181;
+  text-align: center;
+}

@@ -30,6 +30,16 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
+h1,
+h2 {
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+  line-height: 110%;
+}
+
 .hidden {
   display: none;
 }
