@@ -19,7 +19,7 @@ const Home = () => {
         const data = doc.data();
         const level = {
           title: data.title,
-          imageUrl: data.imageUrl,
+          imageUrl: data.imageUrl.small,
           id: doc.id,
         };
         levels.push(level);
