@@ -18,7 +18,7 @@ const GameOverMessage = ({ seconds }) => {
       <h1>Congratulations!</h1>
 
       <p>
-        You completed this level by finding all characters is{' '}
+        You completed this level by finding all characters in{' '}
         <span className="underlined">{getLongFormatTime(seconds)}</span>.
       </p>
 

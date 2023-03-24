@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../styles/ContextMenu.css';
 
-const ContextMenu = ({ isOpen, position, characters }) => {
+const ContextMenu = ({ isOpen, position, characters, handleSelect }) => {
   const [animation, setAnimation] = useState('');
   const [isHidden, setIsHidden] = useState(true);
 
@@ -39,6 +39,7 @@ const ContextMenu = ({ isOpen, position, characters }) => {
             name={character.name}
             avatarUrl={character.avatarUrl}
             found={character.found}
+            handleSelect={handleSelect}
           />
         ))}
       </ul>
@@ -46,9 +47,12 @@ const ContextMenu = ({ isOpen, position, characters }) => {
   );
 };
 
-const ContextOption = ({ name, avatarUrl, found }) => {
+const ContextOption = ({ name, avatarUrl, found, handleSelect }) => {
   return (
-    <li className={'ContextOption' + (found ? ' found' : '')}>
+    <li
+      className={'ContextOption' + (found ? ' found' : '')}
+      onClick={!found ? () => handleSelect(name) : null}
+    >
       <img src={avatarUrl} alt={name} className="ContextOption_avatar" />
       <p className="ContextOption_name">{name}</p>
     </li>

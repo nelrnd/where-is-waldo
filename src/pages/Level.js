@@ -11,47 +11,115 @@ import CharactersList from '../components/CharactersList';
 import Timer from '../components/Timer';
 import GameOverMessage from '../components/GameOverMessage';
 
-import WaldoAvatar from '../assets/images/characters/waldo.png';
-import WendaAvatar from '../assets/images/characters/wenda.png';
-import WizardAvatar from '../assets/images/characters/wizard.png';
-import OdlawAvatar from '../assets/images/characters/odlaw.png';
-
-const characters = [
-  { name: 'Waldo', avatarUrl: WaldoAvatar, found: true },
-  { name: 'Wenda', avatarUrl: WendaAvatar, found: false },
-  { name: 'Wizard', avatarUrl: WizardAvatar, found: true },
-  { name: 'Odlaw', avatarUrl: OdlawAvatar, found: false },
-];
-
 const Level = () => {
-  const levelid = useParams().levelid;
-  const [levelInfo, setLevelInfo] = useState({});
+  const levelId = useParams().levelId;
+  const [imageUrl, setImageUrl] = useState('');
+  const [characters, setCharacters] = useState([]);
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const [seconds, setSeconds] = useState(0);
-  const [isTimerRunning, setIsTimerRunning] = useState(true);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
 
-  // Position and state of context menu
-  const [ctxMenuPos, setCtxMenuPos] = useState({ x: 0, y: 0 });
+  const [clickPos, setClickPos] = useState({ x: 0, y: 0 });
   const [isCtxMenuOpen, setIsCtxMenuOpen] = useState(false);
+  const [ctxMenuPos, setCtxMenuPos] = useState({ x: 0, y: 0 });
 
-  // Get level info when page mounts
-  useEffect(() => {
-    const getLevelInfo = async (levelid) => {
-      const docRef = doc(db, 'levels', levelid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        const levelInfo = { title: data.title, imageUrl: data.imageUrl.medium };
-        setLevelInfo(levelInfo);
-      } else {
-        console.error('Cannot find level');
+  const startTimer = () => setIsTimerRunning(true);
+  const stopTimer = () => setIsTimerRunning(false);
+
+  const getClickPos = (event) => {
+    const x = event.pageX - event.target.offsetLeft;
+    const y = event.pageY - event.target.offsetTop;
+    setClickPos({ x, y });
+  };
+
+  const openCtxMenu = () => setIsCtxMenuOpen(true);
+  const closeCtxMenu = () => setIsCtxMenuOpen(false);
+
+  const handlePuzzleImageClick = (event) => {
+    if (!isCtxMenuOpen) {
+      setCtxMenuPos({ x: event.pageX + 5, y: event.pageY + 5 });
+      getClickPos(event);
+      openCtxMenu();
+    } else {
+      closeCtxMenu();
+    }
+  };
+
+  const handleSelectCharacter = async (character) => {
+    const isHere = await checkIfHere(character, clickPos);
+
+    if (isHere) {
+      characters.find((c) => c.name === character).found = true;
+      const isGameOver = checkIfGameOver();
+
+      if (isGameOver) {
+        handleGameOver();
       }
+    }
+
+    closeCtxMenu();
+  };
+
+  // Check if character is at position
+  const checkIfHere = async (name, position) => {
+    const docRef = doc(db, 'levels', levelId);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      console.error('Cannot find level');
+      return;
+    }
+    const data = docSnap.data();
+    const characters = data.characters;
+    const character = characters.find((c) => c.name === name);
+
+    if (
+      position.x > character.position.left &&
+      position.x < character.position.left + character.position.width &&
+      position.y > character.position.top &&
+      position.y < character.position.top + character.position.height
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  // Check if all characters has been found
+  const checkIfGameOver = () => {
+    return characters.every((character) => character.found === true);
+  };
+
+  const handleGameOver = () => {
+    stopTimer();
+    setIsGameOver(true);
+    console.log(`Game is over in ${seconds} seconds`);
+  };
+
+  // Get level info and start timer when page mounts
+  useEffect(() => {
+    const getLevelInfo = async (levelId) => {
+      const docRef = doc(db, 'levels', levelId);
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        console.error('Cannot find level');
+        return;
+      }
+      const data = docSnap.data();
+      setImageUrl(data.imageUrl.medium);
+      setCharacters(
+        data.characters.map((c) => ({
+          name: c.name,
+          avatarUrl: c.avatarUrl,
+          found: false,
+        }))
+      );
+      startTimer();
     };
 
-    getLevelInfo(levelid);
-  }, [levelid]);
+    getLevelInfo(levelId);
+  }, [levelId]);
 
-  // Handle starting and stopping timer
+  // Timer logic
   useEffect(() => {
     let interval;
     if (isTimerRunning) {
@@ -62,27 +130,6 @@ const Level = () => {
     return () => clearInterval(interval);
   }, [isTimerRunning]);
 
-  const stopTimer = () => setIsTimerRunning(false);
-
-  // Toggle context menu state (open and close)
-  const toggleCtxMenu = () => setIsCtxMenuOpen(!isCtxMenuOpen);
-
-  // Handle clicking on puzzle image
-  const handlePuzzleImageClick = (event) => {
-    if (!isCtxMenuOpen) {
-      setCtxMenuPos({ x: event.pageX + 5, y: event.pageY + 5 });
-    }
-    toggleCtxMenu();
-    getClickPosition(event);
-  };
-
-  // Get click position on PuzzleImage
-  const getClickPosition = (event) => {
-    const x = event.pageX - event.target.offsetLeft;
-    const y = event.pageY - event.target.offsetTop;
-    return { x, y };
-  };
-
   return (
     <>
       <NavBar>
@@ -90,18 +137,25 @@ const Level = () => {
       </NavBar>
 
       <div>
-        <CharactersList characters={characters} />
-        <ContextMenu
-          isOpen={isCtxMenuOpen}
-          position={ctxMenuPos}
-          characters={characters}
-        />
-        {levelInfo && levelInfo.imageUrl && (
+        {characters && <CharactersList characters={characters} />}
+
+        {characters && (
+          <ContextMenu
+            isOpen={isCtxMenuOpen}
+            position={ctxMenuPos}
+            characters={characters}
+            handleSelect={handleSelectCharacter}
+          />
+        )}
+
+        {imageUrl && (
           <PuzzleImage
-            imageUrl={levelInfo.imageUrl}
+            imageUrl={imageUrl}
             handleClick={handlePuzzleImageClick}
           />
         )}
+
+        {isGameOver && <GameOverMessage seconds={seconds} />}
       </div>
 
       <Footer />
