@@ -15,17 +15,17 @@
   grid-template-columns: 50px 1fr 1fr 1fr;
 }
 
-.LeaderboardTable tr:nth-child(even) {
+.LeaderboardTable thead tr {
+  color: white;
+  background-color: var(--dark);
+}
+
+.LeaderboardTable tbody tr:nth-child(even) {
   background-color: white;
 }
 
-.LeaderboardTable tr:nth-child(odd) {
+.LeaderboardTable tbody tr:nth-child(odd) {
   background-color: #f8f8f8;
-}
-
-.LeaderboardTable tr:first-of-type {
-  color: white;
-  background-color: var(--dark);
 }
 
 .LeaderboardTable th,

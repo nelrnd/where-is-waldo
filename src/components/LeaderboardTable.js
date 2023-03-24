@@ -1,11 +1,6 @@
-const data = [
-  { username: 'EnZeSky', score: '00:03:21', date: '22/03/23' },
-  { username: 'DaVinci', score: '00:05:15', date: '25/03/23' },
-  { username: 'BelowC', score: '00:06:32', date: '22/03/23' },
-  { username: 'Karnagi', score: '00:07:21', date: '22/03/23' },
-];
+import { getShortFormatTime } from '../utils';
 
-const LeaderboardTable = () => {
+const LeaderboardTable = ({ scores }) => {
   return (
     <table className="LeaderboardTable">
       <thead>
@@ -17,21 +12,23 @@ const LeaderboardTable = () => {
         </tr>
       </thead>
       <tbody>
-        {data.map((item, index) => (
-          <LeaderboardTableRow
-            key={index}
-            index={index}
-            username={item.username}
-            score={item.score}
-            date={item.date}
-          />
-        ))}
+        {scores
+          .sort((a, b) => a.seconds - b.seconds)
+          .map((item, index) => (
+            <LeaderboardTableRow
+              key={index}
+              index={index}
+              username={item.username}
+              seconds={item.seconds}
+              date={item.date}
+            />
+          ))}
       </tbody>
     </table>
   );
 };
 
-const LeaderboardTableRow = ({ index, username, score, date }) => {
+const LeaderboardTableRow = ({ index, username, seconds, date }) => {
   let position;
   if (index === 0) {
     position = '🏆';
@@ -47,8 +44,8 @@ const LeaderboardTableRow = ({ index, username, score, date }) => {
     <tr>
       <td>{position}</td>
       <td>{username}</td>
-      <td>{score}</td>
-      <td>{date}</td>
+      <td>{getShortFormatTime(seconds)}</td>
+      <td>{new Date(date).toLocaleDateString()}</td>
     </tr>
   );
 };
