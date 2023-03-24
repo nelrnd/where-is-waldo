@@ -32,8 +32,10 @@
   border-radius: 4px;
 }
 
-.GameOverMessage button {
+.GameOverMessage button,
+.GameOverMessage a {
   font-size: 1rem;
+  text-align: center;
   display: block;
   width: 100%;
   padding: 12px;

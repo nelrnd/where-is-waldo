@@ -8,21 +8,25 @@ const data = [
 const LeaderboardTable = () => {
   return (
     <table className="LeaderboardTable">
-      <tr>
-        <th></th>
-        <th>Username</th>
-        <th>Score</th>
-        <th>Date</th>
-      </tr>
-      {data.map((item, index) => (
-        <LeaderboardTableRow
-          key={index}
-          index={index}
-          username={item.username}
-          score={item.score}
-          date={item.date}
-        />
-      ))}
+      <thead>
+        <tr>
+          <th></th>
+          <th>Username</th>
+          <th>Score</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((item, index) => (
+          <LeaderboardTableRow
+            key={index}
+            index={index}
+            username={item.username}
+            score={item.score}
+            date={item.date}
+          />
+        ))}
+      </tbody>
     </table>
   );
 };

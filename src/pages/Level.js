@@ -92,7 +92,6 @@ const Level = () => {
   const handleGameOver = () => {
     stopTimer();
     setIsGameOver(true);
-    console.log(`Game is over in ${seconds} seconds`);
   };
 
   // Get level info and start timer when page mounts
