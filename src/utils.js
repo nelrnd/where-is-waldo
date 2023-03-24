@@ -2,7 +2,7 @@
 function getTime(seconds) {
   const units = [
     { name: 'hours', nbOfSeconds: 3600, value: 0 },
-    { name: 'seconds', nbOfSeconds: 60, value: 0 },
+    { name: 'minutes', nbOfSeconds: 60, value: 0 },
   ];
 
   units.forEach((unit) => {
@@ -24,6 +24,7 @@ export function getLongFormatTime(seconds) {
   const convert = (unit) =>
     unit.value + ' ' + (unit.value > 1 ? unit.name : unit.name.slice(0, -1));
   const converted = time.filter((u) => u.value !== 0).map((t) => convert(t));
+  if (converted.length === 1) return converted[0];
   return converted.slice(0, -1).join(', ').concat(' and ', converted.slice(-1));
 }
 
