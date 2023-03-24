@@ -1,9 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import '../styles/ContextMenu.css';
 
-const ContextMenu = ({ isOpen, position, characters, handleSelect }) => {
+const ContextMenu = ({
+  isOpen,
+  position,
+  updatePosition,
+  characters,
+  handleSelect,
+}) => {
   const [animation, setAnimation] = useState('');
   const [isHidden, setIsHidden] = useState(true);
+
+  const elem = useRef();
 
   useEffect(() => {
     const opening = async () => {
@@ -27,10 +35,30 @@ const ContextMenu = ({ isOpen, position, characters, handleSelect }) => {
     }
   }, [isOpen]);
 
+  // Prevent Context Menu from overflowing outside the page
+  useLayoutEffect(() => {
+    if (isOpen && animation === '') {
+      const ContextMenuWidth = elem.current.offsetWidth;
+      const ContextMenuHeight = elem.current.offsetHeight;
+      const clickX = position.x;
+      const clickY = position.y;
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      if (clickX + ContextMenuWidth > windowWidth) {
+        updatePosition({ x: position.x - ContextMenuWidth, y: position.y });
+      }
+      if (clickY + ContextMenuHeight > windowHeight) {
+        updatePosition({ x: position.x, y: position.y - ContextMenuHeight });
+      }
+    }
+  });
+
   return (
     <div
       className={`ContextMenu ${isHidden ? 'hidden' : ''} ${animation}`}
       style={{ left: position.x + 'px', top: position.y + 'px' }}
+      ref={elem}
     >
       <ul>
         {characters.map((character, index) => (

@@ -33,14 +33,18 @@ const Level = () => {
     setClickPos({ x, y });
   };
 
+  const updateCtxMenuPos = (newPos) => {
+    setCtxMenuPos(newPos);
+  };
+
   const openCtxMenu = () => setIsCtxMenuOpen(true);
   const closeCtxMenu = () => setIsCtxMenuOpen(false);
 
   const handlePuzzleImageClick = (event) => {
     if (!isCtxMenuOpen) {
-      setCtxMenuPos({ x: event.pageX + 5, y: event.pageY + 5 });
       getClickPos(event);
       openCtxMenu();
+      setCtxMenuPos({ x: event.pageX, y: event.pageY });
     } else {
       closeCtxMenu();
     }
@@ -142,6 +146,7 @@ const Level = () => {
           <ContextMenu
             isOpen={isCtxMenuOpen}
             position={ctxMenuPos}
+            updatePosition={updateCtxMenuPos}
             characters={characters}
             handleSelect={handleSelectCharacter}
           />
