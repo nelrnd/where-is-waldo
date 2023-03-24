@@ -10,8 +10,8 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/level/:levelid" element={<Level />} />
-          <Route path="/leaderboard/:levelid" element={<Leaderboard />} />
+          <Route path="/level/:levelId" element={<Level />} />
+          <Route path="/leaderboard/:levelId" element={<Leaderboard />} />
         </Routes>
       </Router>
     </div>
