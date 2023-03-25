@@ -10,6 +10,7 @@ import ContextMenu from '../components/ContextMenu';
 import CharactersList from '../components/CharactersList';
 import Timer from '../components/Timer';
 import GameOverMessage from '../components/GameOverMessage';
+import FeedbackMessage from '../components/FeedbackMessage';
 
 const Level = () => {
   const levelId = useParams().levelId;
@@ -23,6 +24,9 @@ const Level = () => {
   const [clickPos, setClickPos] = useState({ x: 0, y: 0 });
   const [isCtxMenuOpen, setIsCtxMenuOpen] = useState(false);
   const [ctxMenuPos, setCtxMenuPos] = useState({ x: 0, y: 0 });
+
+  const [currentFeedbackMessage, setCurrentFeedbackMessage] = useState(null);
+  const [feedbackTimer, setFeedbackTimer] = useState(null);
 
   const startTimer = () => setIsTimerRunning(true);
   const stopTimer = () => setIsTimerRunning(false);
@@ -62,8 +66,23 @@ const Level = () => {
       }
     }
 
+    displayFeedbackMessage(isHere);
     closeCtxMenu();
   };
+
+  const displayFeedbackMessage = (isCorrect) => {
+    let elem = <FeedbackMessage isCorrect={isCorrect} key={Math.random()} />;
+    setCurrentFeedbackMessage(elem);
+  };
+
+  // Remove feedback message after 1.5 seconds
+  useEffect(() => {
+    let feedbackTimer = setTimeout(() => {
+      setCurrentFeedbackMessage(null);
+    }, 1500);
+
+    return () => clearTimeout(feedbackTimer);
+  }, [currentFeedbackMessage]);
 
   // Check if character is at position
   const checkIfHere = async (name, position) => {
@@ -140,6 +159,8 @@ const Level = () => {
       </NavBar>
 
       <div>
+        {currentFeedbackMessage}
+
         {characters && <CharactersList characters={characters} />}
 
         {characters && (

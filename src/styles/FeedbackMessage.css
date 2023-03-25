@@ -1,0 +1,27 @@
+.FeedbackMessage {
+  font-size: 1.5rem;
+  text-align: center;
+  border-radius: 4px;
+  color: white;
+  padding: 1rem;
+  width: 260px;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  translate: -50%;
+
+  animation: appear-anim 0.3s ease-in-out;
+}
+
+@keyframes appear-anim {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+}
