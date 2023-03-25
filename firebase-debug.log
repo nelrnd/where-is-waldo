@@ -1,0 +1,21 @@
+[debug] [2023-03-25T10:40:24.156Z] ----------------------------------------------------------------------
+[debug] [2023-03-25T10:40:24.157Z] Command:       /home/nel/.nvm/versions/node/v16.17.0/bin/node /home/nel/.nvm/versions/node/v16.17.0/bin/firebase init
+[debug] [2023-03-25T10:40:24.157Z] CLI Version:   11.25.1
+[debug] [2023-03-25T10:40:24.157Z] Platform:      linux
+[debug] [2023-03-25T10:40:24.157Z] Node Version:  v16.17.0
+[debug] [2023-03-25T10:40:24.158Z] Time:          Sat Mar 25 2023 11:40:24 GMT+0100 (Central European Standard Time)
+[debug] [2023-03-25T10:40:24.158Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-03-25T10:40:24.161Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-03-25T10:40:24.161Z] > authorizing via signed-in user (nel.renaudin@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /home/nel/repos/where-is-waldo
+
