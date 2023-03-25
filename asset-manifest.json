@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/nelrnd/where-is-waldo/static/css/main.ba3b6ba7.css",
+    "main.js": "/nelrnd/where-is-waldo/static/js/main.c399bac4.js",
+    "static/media/navbar-waldo.png": "/nelrnd/where-is-waldo/static/media/navbar-waldo.c84813501abe2fae0648.png",
+    "index.html": "/nelrnd/where-is-waldo/index.html",
+    "static/media/expand.svg": "/nelrnd/where-is-waldo/static/media/expand.495b31159f7f7223e1fa1db79907c41d.svg",
+    "main.ba3b6ba7.css.map": "/nelrnd/where-is-waldo/static/css/main.ba3b6ba7.css.map",
+    "main.c399bac4.js.map": "/nelrnd/where-is-waldo/static/js/main.c399bac4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ba3b6ba7.css",
+    "static/js/main.c399bac4.js"
+  ]
+}
