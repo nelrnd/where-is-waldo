@@ -26,7 +26,6 @@ const Level = () => {
   const [ctxMenuPos, setCtxMenuPos] = useState({ x: 0, y: 0 });
 
   const [currentFeedbackMessage, setCurrentFeedbackMessage] = useState(null);
-  const [feedbackTimer, setFeedbackTimer] = useState(null);
 
   const startTimer = () => setIsTimerRunning(true);
   const stopTimer = () => setIsTimerRunning(false);
