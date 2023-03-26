@@ -1,14 +1,14 @@
 .ContextMenu {
+  position: absolute;
   width: 130px;
   border-radius: 4px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(5px);
   overflow: hidden;
-
-  position: absolute;
+  animation: appear 0.3s ease-in-out;
 }
 
-.ContextOption {
+.ContextMenuOption {
   background-color: rgba(255, 255, 255, 0.8);
   padding: 0.25rem 0.5rem;
   display: flex;
@@ -17,11 +17,11 @@
   cursor: pointer;
 }
 
-.ContextOption:hover {
+.ContextMenuOption:hover {
   background-color: rgba(235, 235, 235, 0.8);
 }
 
-.ContextOption_avatar {
+.ContextMenuOption_avatar {
   display: block;
   width: 1.5rem;
   height: 1.5rem;
@@ -30,52 +30,28 @@
   background-color: var(--grey);
 }
 
-.ContextOption.found {
+.ContextMenuOption.found {
   cursor: not-allowed;
 }
-
-.ContextOption.found:hover {
+.ContextMenuOption.found:hover {
   background-color: rgba(255, 255, 255, 0.8);
 }
-
-.ContextOption.found .ContextOption_avatar {
+.ContextMenuOption.found .ContextMenuOption_avatar {
   opacity: 0.5;
   filter: grayscale(1);
 }
-
-.ContextOption.found .ContextOption_name {
+.ContextMenuOption.found .ContextMenuOption_name {
   color: #b3b3b3;
   text-decoration: line-through;
 }
 
-/* Handling opening and closing animations */
-
-.ContextMenu.opening {
-  animation: bounce-in 0.3s ease-in-out;
-}
-
-.ContextMenu.closing {
-  animation: bounce-out 0.3s ease-in-out;
-}
-
-@keyframes bounce-in {
+@keyframes appear {
   0% {
     opacity: 0;
-    transform: scale(0.5) translate(-30%, -30%) 1;
+    transform: scale(0.8) translate(-10px);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translate(0%) 1;
-  }
-}
-
-@keyframes bounce-out {
-  0% {
-    opacity: 1;
-    transform: scale(1) translate(0%);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.5) translate(-30%, -30%);
+    transform: scale(1) translate(0);
   }
 }

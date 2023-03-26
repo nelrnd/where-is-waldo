@@ -15,7 +15,7 @@ const CharactersList = ({ characters }) => {
             key={index}
             name={character.name}
             avatarUrl={character.avatarUrl}
-            found={character.found}
+            isFound={character.isFound}
           />
         ))}
       </ul>
@@ -31,9 +31,9 @@ const CharactersList = ({ characters }) => {
   );
 };
 
-const CharacterItem = ({ name, avatarUrl, found }) => {
+const CharacterItem = ({ name, avatarUrl, isFound }) => {
   return (
-    <li className={'CharacterItem' + (found ? ' found' : '')}>
+    <li className={'CharacterItem' + (isFound ? ' found' : '')}>
       <img src={avatarUrl} alt={name} className="CharacterItem_avatar" />
       <p className="CharacterItem_name">{name}</p>
     </li>

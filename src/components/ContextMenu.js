@@ -1,72 +1,45 @@
-import { useEffect, useState, useRef, useLayoutEffect } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import '../styles/ContextMenu.css';
 
-const ContextMenu = ({
-  isOpen,
-  position,
-  updatePosition,
-  characters,
-  handleSelect,
-}) => {
-  const [animation, setAnimation] = useState('');
-  const [isHidden, setIsHidden] = useState(true);
+const ContextMenu = ({ characters, clickEvent, handleSelect }) => {
+  const ref = useRef(null);
 
-  const elem = useRef();
+  let position = {
+    x: clickEvent.pageX,
+    y: clickEvent.pageY,
+  };
 
-  useEffect(() => {
-    const opening = async () => {
-      setIsHidden(false);
-      setAnimation('opening');
-      await new Promise((r) => setTimeout(r, 300));
-      setAnimation('');
-    };
-
-    const closing = async () => {
-      setAnimation('closing');
-      await new Promise((r) => setTimeout(r, 300));
-      setIsHidden(true);
-      setAnimation('');
-    };
-
-    if (isOpen) {
-      opening();
-    } else {
-      closing();
-    }
-  }, [isOpen]);
-
-  // Prevent Context Menu from overflowing outside the page
   useLayoutEffect(() => {
-    if (isOpen && animation === '') {
-      const ContextMenuWidth = elem.current.offsetWidth;
-      const ContextMenuHeight = elem.current.offsetHeight;
-      const clickX = position.x;
-      const clickY = position.y;
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
+    const CtxMenuDims = {
+      width: ref.current.offsetWidth,
+      height: ref.current.offsetHeight,
+    };
+    const windowDims = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
 
-      if (clickX + ContextMenuWidth > windowWidth) {
-        updatePosition({ x: position.x - ContextMenuWidth, y: position.y });
-      }
-      if (clickY + ContextMenuHeight > windowHeight) {
-        updatePosition({ x: position.x, y: position.y - ContextMenuHeight });
-      }
+    if (clickEvent.clientX + CtxMenuDims.width > windowDims.width) {
+      ref.current.style.left = clickEvent.pageX - CtxMenuDims.width + 'px';
     }
-  });
+    if (clickEvent.clientY + CtxMenuDims.height > windowDims.height) {
+      ref.current.style.top = clickEvent.pageY - CtxMenuDims.height + 'px';
+    }
+  }, [clickEvent]);
 
   return (
     <div
-      className={`ContextMenu ${isHidden ? 'hidden' : ''} ${animation}`}
-      style={{ left: position.x + 'px', top: position.y + 'px' }}
-      ref={elem}
+      className="ContextMenu"
+      style={{ top: position.y + 'px', left: position.x + 'px' }}
+      ref={ref}
     >
       <ul>
         {characters.map((character, index) => (
-          <ContextOption
+          <ContextMenuOption
             key={index}
             name={character.name}
             avatarUrl={character.avatarUrl}
-            found={character.found}
+            isFound={character.isFound}
             handleSelect={handleSelect}
           />
         ))}
@@ -75,14 +48,14 @@ const ContextMenu = ({
   );
 };
 
-const ContextOption = ({ name, avatarUrl, found, handleSelect }) => {
+const ContextMenuOption = ({ name, avatarUrl, isFound, handleSelect }) => {
   return (
     <li
-      className={'ContextOption' + (found ? ' found' : '')}
-      onClick={!found ? () => handleSelect(name) : null}
+      className={'ContextMenuOption' + (isFound ? ' found' : '')}
+      onClick={!isFound ? () => handleSelect(name) : null}
     >
-      <img src={avatarUrl} alt={name} className="ContextOption_avatar" />
-      <p className="ContextOption_name">{name}</p>
+      <img src={avatarUrl} alt={name} className="ContextMenuOption_avatar" />
+      <p className="ContextMenuOption_name">{name}</p>
     </li>
   );
 };
