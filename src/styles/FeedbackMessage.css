@@ -7,8 +7,8 @@
   width: 260px;
   background-color: rgba(0, 0, 0, 0.5);
 
-  position: absolute;
-  top: 100px;
+  position: fixed;
+  top: 4rem;
   left: 50%;
   translate: -50%;
 
